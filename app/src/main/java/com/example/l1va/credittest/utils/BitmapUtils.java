@@ -104,7 +104,6 @@ public class BitmapUtils {
 */
         Bitmap bitmap = thumbnailsMap.get(resourceId);
         if (bitmap == null) {
-            System.out.println("FFFFFFFFFFFFFFFFFFFFFFFFFFFF" + resourceId);
             bitmap=decodeSampledBitmapFromResource(resources, resourceId, 200, 200);
             thumbnailsMap.put(resourceId, bitmap);
         }
@@ -114,17 +113,16 @@ public class BitmapUtils {
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
                                                          int reqWidth, int reqHeight) {
 
-        // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(res, resId, options);
-
-        // Calculate inSampleSize
+        //System.out.println("Init:"+options.outWidth + " "+ options.outHeight);
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
-        // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeResource(res, resId, options);
+        Bitmap result = BitmapFactory.decodeResource(res, resId, options);
+        //System.out.println("Result:"+result.getWidth()+ " "+ result.getHeight());
+        return result;
     }
 
     public static int calculateInSampleSize(
