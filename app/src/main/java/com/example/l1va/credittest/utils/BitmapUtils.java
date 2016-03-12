@@ -41,7 +41,7 @@ public class BitmapUtils {
             "6Right before I took this picture, there was a busload of school children right " ,
     };
 
-    static HashMap<Integer, Bitmap> sBitmapResourceMap = new HashMap<Integer, Bitmap>();
+    static HashMap<Integer, Bitmap> thumbnailsMap = new HashMap<Integer, Bitmap>();
 
     /**
      * Load pictures and descriptions. A real app wouldn't do it this way, but that's
@@ -52,8 +52,7 @@ public class BitmapUtils {
         ArrayList<PictureData> pictures = new ArrayList<PictureData>();
         for (int i = 0; i < 30; ++i) {
             int resourceId = mPhotos[(int) (Math.random() * mPhotos.length)];
-            Bitmap bitmap = getBitmap(resources, resourceId);
-            Bitmap thumbnail = getThumbnail(bitmap, 200);
+            Bitmap thumbnail = getThumbnail(resources, resourceId, 200);
             String description = mDescriptions[(int) (Math.random() * mDescriptions.length)];
             pictures.add(new PictureData(resourceId, description, thumbnail));
         }
@@ -64,22 +63,31 @@ public class BitmapUtils {
      * Utility method to get bitmap from cache or, if not there, load it
      * from its resource.
      */
-    static Bitmap getBitmap(Resources resources, int resourceId) {
+    /*static Bitmap getBitmap(Resources resources, int resourceId) {
         Bitmap bitmap = sBitmapResourceMap.get(resourceId);
         if (bitmap == null) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.id.myimage, options);
+            int imageHeight = options.outHeight;
+            int imageWidth = options.outWidth;
+            String imageType = options.outMimeType;
+
+
             bitmap = BitmapFactory.decodeResource(resources, resourceId);
             sBitmapResourceMap.put(resourceId, bitmap);
         }
         return bitmap;
-    }
+    }*/
 
     /**
      * Create and return a thumbnail image given the original source bitmap and a max
      * dimension (width or height).
      */
-    private Bitmap getThumbnail(Bitmap original, int maxDimension) {
-        int width = original.getWidth();
-        int height = original.getHeight();
+    private Bitmap getThumbnail(Resources resources, int resourceId, int maxDimension) {
+        /*BitmapFactory.Options options = getBitmapOptions(resources, resourceId);
+        int width = options.outWidth;
+        int height = options.outHeight;
         int scaledWidth, scaledHeight;
         if (width >= height) {
             float scaleFactor = (float) maxDimension / width;
@@ -90,9 +98,56 @@ public class BitmapUtils {
             scaledWidth = (int) (scaleFactor * width);
             scaledHeight = 200;
         }
-        Bitmap thumbnail = Bitmap.createScaledBitmap(original, scaledWidth, scaledHeight, true);
 
-        return thumbnail;
+
+        Bitmap thumbnail = Bitmap.createScaledBitmap(original, scaledWidth, scaledHeight, true);
+*/
+        Bitmap bitmap = thumbnailsMap.get(resourceId);
+        if (bitmap == null) {
+            System.out.println("FFFFFFFFFFFFFFFFFFFFFFFFFFFF" + resourceId);
+            bitmap=decodeSampledBitmapFromResource(resources, resourceId, 200, 200);
+            thumbnailsMap.put(resourceId, bitmap);
+        }
+        return bitmap;
+    }
+
+    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+                                                         int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(res, resId, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(res, resId, options);
+    }
+
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 
 
