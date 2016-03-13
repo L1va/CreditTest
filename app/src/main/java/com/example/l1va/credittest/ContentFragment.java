@@ -1,11 +1,14 @@
 package com.example.l1va.credittest;
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,16 +19,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.l1va.credittest.utils.BitmapUtils;
+//import com.example.l1va.credittest.utils.BitmapUtils;
+import com.example.l1va.credittest.utils.BitmapUtilsOld;
 
 import java.util.ArrayList;
 
 public class ContentFragment extends Fragment {
 
+    private static final String PACKAGE = "com.example.l1va.credittest";
     private static final String KEY_TITLE = "title";
     private static final String KEY_INDICATOR_COLOR = "indicator_color";
     RecyclerView mGrid;
-    BitmapUtils mBitmapUtils = new BitmapUtils();
+    BitmapUtilsOld mBitmapUtils = new BitmapUtilsOld();
 
     public static ContentFragment newInstance(CharSequence title, int indicatorColor) {
         Bundle bundle = new Bundle();
@@ -93,6 +98,7 @@ public class ContentFragment extends Fragment {
         private Resources resources;
         private ColorMatrixColorFilter grayscaleFilter;
         private LayoutInflater layoutInflater;
+        private ThumbnailClickListener thumbnailClickListener;
 
         private GridAdapter(Context context) {
             this.context = context;
@@ -102,6 +108,7 @@ public class ContentFragment extends Fragment {
             grayMatrix.setSaturation(0);
             grayscaleFilter = new ColorMatrixColorFilter(grayMatrix);
             layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            thumbnailClickListener = new ThumbnailClickListener(context);
         }
 
         @Override
@@ -119,13 +126,58 @@ public class ContentFragment extends Fragment {
             thumbnailDrawable.setColorFilter(grayscaleFilter);
 
             holder.image.setImageDrawable(thumbnailDrawable);
-            //holder.image.setOnClickListener(thumbnailClickListener);
+            holder.image.setOnClickListener(thumbnailClickListener);
             holder.image.setTag(pictureData);
         }
 
         @Override
         public int getItemCount() {
             return pictures.size();
+        }
+    }
+
+    private class ThumbnailClickListener implements View.OnClickListener {
+
+        private Context context;
+        private ThumbnailClickListener(Context context) {
+            this.context = context;
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+                PictureData info = (PictureData) v.getTag();
+                Intent subActivity = new Intent(context,
+                        ImageActivity.class);
+                subActivity.putExtra(PACKAGE + ".resourceId", info.resourceId);
+                context.startActivity(subActivity,
+                        ActivityOptions.makeSceneTransitionAnimation((MainActivity)context, v.findViewById(R.id.imageView), "image").toBundle());
+            }/* else {
+                // Interesting data to pass across are the thumbnail size/location, the
+                // resourceId of the source bitmap, the picture description, and the
+                // orientation (to avoid returning back to an obsolete configuration if
+                // the device rotates again in the meantime)
+                int[] screenLocation = new int[2];
+                v.getLocationOnScreen(screenLocation);
+                PictureData info = (PictureData) v.getTag();
+                Intent subActivity = new Intent(ActivityAnimations.this,
+                        PictureDetailsActivity.class);
+                int orientation = getResources().getConfiguration().orientation;
+                subActivity.
+                        putExtra(PACKAGE + ".orientation", orientation).
+                        putExtra(PACKAGE + ".resourceId", info.resourceId).
+                        putExtra(PACKAGE + ".left", screenLocation[0]).
+                        putExtra(PACKAGE + ".top", screenLocation[1]).
+                        putExtra(PACKAGE + ".width", v.getWidth()).
+                        putExtra(PACKAGE + ".height", v.getHeight()).
+                        putExtra(PACKAGE + ".description", info.description);
+                startActivity(subActivity);
+
+                // Override transitions: we don't want the normal window animation in addition
+                // to our custom one
+                overridePendingTransition(0, 0);
+            }*/
         }
     }
 }

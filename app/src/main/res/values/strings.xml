@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">CreditTest</string>
-
+    <string name="subactivity_name">PictureInfo!</string>
 
     <string name="tab_stream">Stream</string>
     <string name="tab_messages">Messages</string>

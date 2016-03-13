@@ -23,6 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ImageActivity"
+            android:label="@string/subactivity_name"
+            android:theme="@style/NoTitle">
+
+        </activity>
     </application>
 
 </manifest>
