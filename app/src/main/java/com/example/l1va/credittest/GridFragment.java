@@ -17,14 +17,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 //import com.example.l1va.credittest.utils.BitmapUtils;
 import com.example.l1va.credittest.utils.BitmapUtilsOld;
 
 import java.util.ArrayList;
 
-public class ContentFragment extends Fragment {
+public class GridFragment extends Fragment {
 
     private static final String PACKAGE = "com.example.l1va.credittest";
     private static final String KEY_TITLE = "title";
@@ -32,12 +31,12 @@ public class ContentFragment extends Fragment {
     RecyclerView mGrid;
     BitmapUtilsOld mBitmapUtils = new BitmapUtilsOld();
 
-    public static ContentFragment newInstance(CharSequence title, int indicatorColor) {
+    public static GridFragment newInstance(CharSequence title, int indicatorColor) {
         Bundle bundle = new Bundle();
         bundle.putCharSequence(KEY_TITLE, title);
         bundle.putInt(KEY_INDICATOR_COLOR, indicatorColor);
 
-        ContentFragment fragment = new ContentFragment();
+        GridFragment fragment = new GridFragment();
         fragment.setArguments(bundle);
 
         return fragment;
@@ -94,14 +93,14 @@ public class ContentFragment extends Fragment {
     private class GridAdapter extends RecyclerView.Adapter<GridHolder> {
 
         private ArrayList<PictureData> pictures;
-        private Context context;
+        //private Context context;
         private Resources resources;
         private ColorMatrixColorFilter grayscaleFilter;
         private LayoutInflater layoutInflater;
         private ThumbnailClickListener thumbnailClickListener;
 
         private GridAdapter(Context context) {
-            this.context = context;
+            //this.context = context;
             resources = context.getResources();
             pictures = mBitmapUtils.loadPhotos(resources);
             ColorMatrix grayMatrix = new ColorMatrix();
@@ -152,7 +151,7 @@ public class ContentFragment extends Fragment {
                         ImageActivity.class);
                 subActivity.putExtra(PACKAGE + ".resourceId", info.resourceId);
                 context.startActivity(subActivity,
-                        ActivityOptions.makeSceneTransitionAnimation((MainActivity)context, v.findViewById(R.id.imageView), "image").toBundle());
+                        ActivityOptions.makeSceneTransitionAnimation((MainActivity)context, v.findViewById(R.id.imageView), "image_transition").toBundle());
             }/* else {
                 // Interesting data to pass across are the thumbnail size/location, the
                 // resourceId of the source bitmap, the picture description, and the

@@ -26,7 +26,7 @@
         <activity
             android:name=".ImageActivity"
             android:label="@string/subactivity_name"
-            android:theme="@style/NoTitle">
+            android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
     </application>

@@ -1,11 +1,9 @@
 package com.example.l1va.credittest;
 
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,12 +11,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.l1va.credittest.utils.SlidingTabLayout;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment();
-            transaction.replace(R.id.main_fragment, fragment);
+            TabsFragment tabsFragment = new TabsFragment();
+            transaction.replace(R.id.main_fragment, tabsFragment);
             transaction.commit();
         }
     }
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
 
@@ -78,16 +78,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_gallery) {
+            SlidingTabLayout tabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+            tabLayout.selectTab(0);
+        } else if (id == R.id.nav_photo) {
+            SlidingTabLayout tabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+            tabLayout.selectTab(1);
+        } else if (id == R.id.nav_cache) {
+            SlidingTabLayout tabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+            tabLayout.selectTab(2);
+        } else if (id == R.id.nav_comment) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_settings) {
 
         }
 

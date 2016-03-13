@@ -30,21 +30,20 @@ import com.example.l1va.credittest.utils.SlidingTabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SlidingTabsColorsFragment extends Fragment {
+public class TabsFragment extends Fragment {
 
-    static class SamplePagerItem {
+    static class TabPagerItem {
         private final CharSequence mTitle;
         private final int mIndicatorColor;
 
 
-        SamplePagerItem(CharSequence title, int indicatorColor) {
+        TabPagerItem(CharSequence title, int indicatorColor) {
             mTitle = title;
             mIndicatorColor = indicatorColor;
-
         }
 
         Fragment createFragment() {
-            return ContentFragment.newInstance(mTitle, mIndicatorColor);
+            return GridFragment.newInstance(mTitle, mIndicatorColor);
         }
 
         CharSequence getTitle() {
@@ -59,19 +58,19 @@ public class SlidingTabsColorsFragment extends Fragment {
 
     private SlidingTabLayout mSlidingTabLayout;
 
-    private ViewPager mViewPager;
+    private ViewPager mTabViewPager;
 
-    private List<SamplePagerItem> mTabs = new ArrayList<SamplePagerItem>();
+    private List<TabPagerItem> mTabs = new ArrayList<TabPagerItem>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mTabs.add(new SamplePagerItem( getString(R.string.tab_stream), Color.BLUE));
+        mTabs.add(new TabPagerItem( getString(R.string.tab_gallery), Color.BLUE));
 
-        mTabs.add(new SamplePagerItem( getString(R.string.tab_messages),Color.RED ));
+        mTabs.add(new TabPagerItem( getString(R.string.tab_photos),Color.RED ));
 
-        mTabs.add(new SamplePagerItem(getString(R.string.tab_photos), Color.YELLOW));
+        mTabs.add(new TabPagerItem(getString(R.string.tab_cache), Color.YELLOW));
     }
 
     @Override
@@ -82,11 +81,11 @@ public class SlidingTabsColorsFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        mViewPager.setAdapter(new SampleFragmentPagerAdapter(getChildFragmentManager()));
+        mTabViewPager = (ViewPager) view.findViewById(R.id.tab_viewpager);
+        mTabViewPager.setAdapter(new TabsFragmentPagerAdapter(getChildFragmentManager()));
 
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setViewPager(mViewPager);
+        mSlidingTabLayout.setViewPager(mTabViewPager);
 
         mSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
 
@@ -103,9 +102,9 @@ public class SlidingTabsColorsFragment extends Fragment {
         });
     }
 
-    class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
+    class TabsFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        SampleFragmentPagerAdapter(FragmentManager fm) {
+        TabsFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -118,7 +117,6 @@ public class SlidingTabsColorsFragment extends Fragment {
         public int getCount() {
             return mTabs.size();
         }
-
 
         @Override
         public CharSequence getPageTitle(int position) {

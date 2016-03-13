@@ -10,5 +10,5 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:scaleType="centerInside"
-        android:transitionName="image" />
+        android:transitionName="image_transition" />
 </FrameLayout>

@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">CreditTest</string>
-    <string name="subactivity_name">PictureInfo!</string>
+    <string name="app_name">Credit Test App</string>
+    <string name="subactivity_name">Picture Info!</string>
 
-    <string name="tab_stream">Stream</string>
-    <string name="tab_messages">Messages</string>
+    <string name="tab_gallery">Gallery</string>
     <string name="tab_photos">Photos</string>
+    <string name="tab_cache">Cache</string>
 
     <string name="action_theme">Theme</string>
     <string name="action_count">Cells count</string>
