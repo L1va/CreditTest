@@ -18,10 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-//import com.example.l1va.credittest.utils.BitmapUtils;
 import com.example.l1va.credittest.utils.BitmapUtilsOld;
 
 import java.util.ArrayList;
+
+//import com.example.l1va.credittest.utils.BitmapUtils;
 
 public class GridFragment extends Fragment {
 
@@ -45,7 +46,7 @@ public class GridFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.grid, container, false);
+        View view = inflater.inflate(R.layout.grid, container, false);
 
         mGrid = (RecyclerView) view.findViewById(R.id.grid);
         Context context = getContext();
@@ -90,6 +91,7 @@ public class GridFragment extends Fragment {
         }
 
     }
+
     private class GridAdapter extends RecyclerView.Adapter<GridHolder> {
 
         private ArrayList<PictureData> pictures;
@@ -138,6 +140,7 @@ public class GridFragment extends Fragment {
     private class ThumbnailClickListener implements View.OnClickListener {
 
         private Context context;
+
         private ThumbnailClickListener(Context context) {
             this.context = context;
 
@@ -145,13 +148,13 @@ public class GridFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 PictureData info = (PictureData) v.getTag();
                 Intent subActivity = new Intent(context,
                         ImageActivity.class);
                 subActivity.putExtra(PACKAGE + ".resourceId", info.resourceId);
                 context.startActivity(subActivity,
-                        ActivityOptions.makeSceneTransitionAnimation((MainActivity)context, v.findViewById(R.id.imageView), "image_transition").toBundle());
+                        ActivityOptions.makeSceneTransitionAnimation((MainActivity) context, v.findViewById(R.id.imageView), "image_transition").toBundle());
             }/* else {
                 // Interesting data to pass across are the thumbnail size/location, the
                 // resourceId of the source bitmap, the picture description, and the

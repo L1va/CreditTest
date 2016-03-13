@@ -66,9 +66,9 @@ public class TabsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mTabs.add(new TabPagerItem( getString(R.string.tab_gallery), Color.BLUE));
+        mTabs.add(new TabPagerItem(getString(R.string.tab_gallery), Color.BLUE));
 
-        mTabs.add(new TabPagerItem( getString(R.string.tab_photos),Color.RED ));
+        mTabs.add(new TabPagerItem(getString(R.string.tab_photos), Color.RED));
 
         mTabs.add(new TabPagerItem(getString(R.string.tab_cache), Color.YELLOW));
     }

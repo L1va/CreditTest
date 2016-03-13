@@ -1,25 +1,31 @@
 package com.example.l1va.credittest;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.l1va.credittest.utils.SlidingTabLayout;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
 
+        setTheme(SettingsActivity.getTheme(getBaseContext()));
+
+        setContentView(R.layout.main_activity);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -51,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.settings, menu);
@@ -61,40 +66,72 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id = item.getItemId();
-
-        if (id == R.id.action_theme) {
-            return true;
-        }else
-        if (id == R.id.action_count) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.settings: {
+                startSettingsActivity();
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void startSettingsActivity() {
+        Intent intent = new Intent();
+        intent.setClassName(this, "com.example.l1va.credittest.SettingsActivity");
+        startActivity(intent);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.nav_gallery:
+                ((SlidingTabLayout) findViewById(R.id.sliding_tabs)).selectTab(0);
+                break;
+            case R.id.nav_photo:
+                ((SlidingTabLayout) findViewById(R.id.sliding_tabs)).selectTab(1);
+                break;
 
-        if (id == R.id.nav_gallery) {
-            SlidingTabLayout tabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-            tabLayout.selectTab(0);
-        } else if (id == R.id.nav_photo) {
-            SlidingTabLayout tabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-            tabLayout.selectTab(1);
-        } else if (id == R.id.nav_cache) {
-            SlidingTabLayout tabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-            tabLayout.selectTab(2);
-        } else if (id == R.id.nav_comment) {
-
-        } else if (id == R.id.nav_settings) {
-
+            case R.id.nav_cache:
+                ((SlidingTabLayout) findViewById(R.id.sliding_tabs)).selectTab(2);
+                break;
+            case R.id.nav_comment:
+            /*Intent intent = new Intent(Intent.ACTION_VIEW);
+            Uri data = Uri.parse("mailto:L1va4ka@yandex.by");
+            intent.setData(data);
+            startActivity(intent);*/
+                Intent mailer = new Intent(Intent.ACTION_SEND);
+                mailer.setType("text/plain");
+                mailer.putExtra(Intent.EXTRA_EMAIL, "L1va4ka@yandex.by");
+                mailer.putExtra(Intent.EXTRA_SUBJECT, "Credit Test App Comment");
+                mailer.putExtra(Intent.EXTRA_TEXT, "Hi, Mike!");
+                startActivity(Intent.createChooser(mailer, "Send email..."));
+                break;
+            case R.id.nav_settings:
+                startSettingsActivity();
+                break;
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+  /*  @Override
+    public void openOptionsMenu() {
+
+        Configuration config = getResources().getConfiguration();
+
+        if((config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+                > Configuration.SCREENLAYOUT_SIZE_LARGE) {
+
+            int originalScreenLayout = config.screenLayout;
+            config.screenLayout = Configuration.SCREENLAYOUT_SIZE_LARGE;
+            super.openOptionsMenu();
+            config.screenLayout = originalScreenLayout;
+
+        } else {
+            super.openOptionsMenu();
+        }
+    }*/
 }

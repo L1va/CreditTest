@@ -1,7 +1,7 @@
 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/grid"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_gravity="center_horizontal"
-    android:id="@+id/grid" >
+    android:layout_gravity="center_horizontal">
 
 </android.support.v7.widget.RecyclerView>

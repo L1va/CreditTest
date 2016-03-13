@@ -1,18 +1,15 @@
 package com.example.l1va.credittest.utils;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.widget.ImageView;
 
 import com.example.l1va.credittest.PictureData;
 import com.example.l1va.credittest.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BitmapUtils {
 
@@ -37,8 +34,8 @@ public class BitmapUtils {
             "Right before I took this picture, there was a busload of school children right " +
                     "in my way. I knew the perfect shot was coming, so I quickly yelled 'Free candy!!!' " +
                     "and they scattered.",
-            "5Right before I took this picture, there was a busload of school children right " ,
-            "6Right before I took this picture, there was a busload of school children right " ,
+            "5Right before I took this picture, there was a busload of school children right ",
+            "6Right before I took this picture, there was a busload of school children right ",
     };
 
     static HashMap<Integer, Bitmap> thumbnailsMap = new HashMap<Integer, Bitmap>();
@@ -104,7 +101,7 @@ public class BitmapUtils {
 */
         Bitmap bitmap = thumbnailsMap.get(resourceId);
         if (bitmap == null) {
-            bitmap=decodeSampledBitmapFromResource(resources, resourceId, 200, 200);
+            bitmap = decodeSampledBitmapFromResource(resources, resourceId, 200, 200);
             thumbnailsMap.put(resourceId, bitmap);
         }
         return bitmap;

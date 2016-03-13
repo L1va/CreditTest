@@ -8,8 +8,9 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.widget.ImageView;
 
-//import com.example.l1va.credittest.utils.BitmapUtils;
 import com.example.l1va.credittest.utils.BitmapUtilsOld;
+
+//import com.example.l1va.credittest.utils.BitmapUtils;
 
 public class ImageActivity extends Activity {
 
@@ -28,6 +29,7 @@ public class ImageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SettingsActivity.getTheme(getBaseContext()));
         setContentView(R.layout.image_full);
 
         imageView = (ImageView) findViewById(R.id.imageView);

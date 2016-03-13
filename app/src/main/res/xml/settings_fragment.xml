@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Themes">
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/themesArray"
+            android:entryValues="@array/themesValues"
+            android:key="listThemes"
+            android:title="Pick your favourite theme" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Grid Settings">
+        <ListPreference
+            android:defaultValue="4"
+            android:entries="@array/cellsCountArray"
+            android:entryValues="@array/cellsCountValues"
+            android:key="listCellsCount"
+            android:title="Pick cells count" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
