@@ -36,7 +36,6 @@ public class TabsFragment extends Fragment {
         private final CharSequence mTitle;
         private final int mIndicatorColor;
 
-
         TabPagerItem(CharSequence title, int indicatorColor) {
             mTitle = title;
             mIndicatorColor = indicatorColor;

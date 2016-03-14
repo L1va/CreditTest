@@ -40,11 +40,6 @@ public class BitmapUtilsOld {
     static HashMap<Integer, Bitmap> sBitmapResourceMap = new HashMap<Integer, Bitmap>();
     static HashMap<Integer, Bitmap> thumbnailsMap = new HashMap<Integer, Bitmap>();
 
-    /**
-     * Load pictures and descriptions. A real app wouldn't do it this way, but that's
-     * not the point of this animation demo. Loading asynchronously is a better way to go
-     * for what can be time-consuming operations.
-     */
     public ArrayList<PictureData> loadPhotos(ArrayList<PictureData> loaded, Resources resources, int rows, int inRow) {
         ArrayList<PictureData> pictures = new ArrayList<PictureData>();
         for (int i = 0; i < rows; ++i) {
@@ -73,18 +68,18 @@ public class BitmapUtilsOld {
             if (loaded != null) {
                 for (int j = 0; j < inRow; ++j) {
                     if (loaded.get(loaded.size() - inRow + j).getResourceId() == pictures.get(j).getResourceId()) {
-                        PictureData toMove = pictures.get(pictures.size()-1);
-                        pictures.set(pictures.size()-1, pictures.get(pictures.size()-inRow));
-                        pictures.set(pictures.size()-inRow, toMove);
+                        PictureData toMove = pictures.get(pictures.size() - 1);
+                        pictures.set(pictures.size() - 1, pictures.get(pictures.size() - inRow));
+                        pictures.set(pictures.size() - inRow, toMove);
                     }
                 }
             }
         } else {
             for (int j = 0; j < inRow; ++j) {
                 if (pictures.get(pictures.size() - 2 * inRow + j).getResourceId() == pictures.get(pictures.size() - inRow + j).getResourceId()) {
-                    PictureData toMove = pictures.get(pictures.size()-1);
-                    pictures.set(pictures.size()-1, pictures.get(pictures.size()-inRow));
-                    pictures.set(pictures.size()-inRow, toMove);
+                    PictureData toMove = pictures.get(pictures.size() - 1);
+                    pictures.set(pictures.size() - 1, pictures.get(pictures.size() - inRow));
+                    pictures.set(pictures.size() - inRow, toMove);
                 }
             }
         }
@@ -100,10 +95,6 @@ public class BitmapUtilsOld {
         return false;
     }
 
-    /**
-     * Utility method to get bitmap from cache or, if not there, load it
-     * from its resource.
-     */
     public static Bitmap getBitmap(Resources resources, int resourceId) {
         Bitmap bitmap = sBitmapResourceMap.get(resourceId);
         if (bitmap == null) {
@@ -113,10 +104,6 @@ public class BitmapUtilsOld {
         return bitmap;
     }
 
-    /**
-     * Create and return a thumbnail image given the original source bitmap and a max
-     * dimension (width or height).
-     */
     private Bitmap getThumbnail(Bitmap original, int resourceId, int maxDimension) {
         Bitmap thumbnail = thumbnailsMap.get(resourceId);
         if (thumbnail == null) {

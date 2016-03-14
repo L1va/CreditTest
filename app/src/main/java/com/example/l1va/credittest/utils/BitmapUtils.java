@@ -34,17 +34,12 @@ public class BitmapUtils {
             "Right before I took this picture, there was a busload of school children right " +
                     "in my way. I knew the perfect shot was coming, so I quickly yelled 'Free candy!!!' " +
                     "and they scattered.",
-            "5Right before I took this picture, there was a busload of school children right ",
-            "6Right before I took this picture, there was a busload of school children right ",
+            "5 Right before I took this picture, there was a busload of school children right ",
+            "6 Right before I took this picture, there was a busload of school children right ",
     };
 
     static HashMap<Integer, Bitmap> thumbnailsMap = new HashMap<Integer, Bitmap>();
 
-    /**
-     * Load pictures and descriptions. A real app wouldn't do it this way, but that's
-     * not the point of this animation demo. Loading asynchronously is a better way to go
-     * for what can be time-consuming operations.
-     */
     public ArrayList<PictureData> loadPhotos(Resources resources) {
         ArrayList<PictureData> pictures = new ArrayList<PictureData>();
         for (int i = 0; i < 30; ++i) {
@@ -56,10 +51,6 @@ public class BitmapUtils {
         return pictures;
     }
 
-    /**
-     * Utility method to get bitmap from cache or, if not there, load it
-     * from its resource.
-     */
     /*static Bitmap getBitmap(Resources resources, int resourceId) {
         Bitmap bitmap = sBitmapResourceMap.get(resourceId);
         if (bitmap == null) {
@@ -77,28 +68,7 @@ public class BitmapUtils {
         return bitmap;
     }*/
 
-    /**
-     * Create and return a thumbnail image given the original source bitmap and a max
-     * dimension (width or height).
-     */
     private Bitmap getThumbnail(Resources resources, int resourceId, int maxDimension) {
-        /*BitmapFactory.Options options = getBitmapOptions(resources, resourceId);
-        int width = options.outWidth;
-        int height = options.outHeight;
-        int scaledWidth, scaledHeight;
-        if (width >= height) {
-            float scaleFactor = (float) maxDimension / width;
-            scaledWidth = 200;
-            scaledHeight = (int) (scaleFactor * height);
-        } else {
-            float scaleFactor = (float) maxDimension / height;
-            scaledWidth = (int) (scaleFactor * width);
-            scaledHeight = 200;
-        }
-
-
-        Bitmap thumbnail = Bitmap.createScaledBitmap(original, scaledWidth, scaledHeight, true);
-*/
         Bitmap bitmap = thumbnailsMap.get(resourceId);
         if (bitmap == null) {
             bitmap = decodeSampledBitmapFromResource(resources, resourceId, 200, 200);
@@ -107,43 +77,29 @@ public class BitmapUtils {
         return bitmap;
     }
 
-    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
-                                                         int reqWidth, int reqHeight) {
+    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId, int reqWidth, int reqHeight) {
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(res, resId, options);
-        //System.out.println("Init:"+options.outWidth + " "+ options.outHeight);
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
         options.inJustDecodeBounds = false;
-        Bitmap result = BitmapFactory.decodeResource(res, resId, options);
-        //System.out.println("Result:"+result.getWidth()+ " "+ result.getHeight());
-        return result;
+        return BitmapFactory.decodeResource(res, resId, options);
     }
 
-    public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
-
         if (height > reqHeight || width > reqWidth) {
-
             final int halfHeight = height / 2;
             final int halfWidth = width / 2;
 
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
             while ((halfHeight / inSampleSize) > reqHeight
                     && (halfWidth / inSampleSize) > reqWidth) {
                 inSampleSize *= 2;
             }
         }
-
         return inSampleSize;
     }
-
-
 }

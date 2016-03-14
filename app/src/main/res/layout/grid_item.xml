@@ -6,7 +6,8 @@
     <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/thumbnail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:contentDescription="" />
 
     <TextView
         android:id="@+id/thumbnailId"
@@ -19,7 +20,6 @@
         android:layout_margin="1dp"
         android:gravity="center"
         android:scaleType="fitXY"
-        android:text="Hello"
         android:textColor="#FFFFFF" />
 
 </RelativeLayout>

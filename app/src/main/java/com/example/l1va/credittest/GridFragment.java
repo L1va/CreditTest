@@ -24,8 +24,6 @@ import com.example.l1va.credittest.utils.BitmapUtilsOld;
 
 import java.util.ArrayList;
 
-//import com.example.l1va.credittest.utils.BitmapUtils;
-
 public class GridFragment extends Fragment {
 
     private static final String PACKAGE = "com.example.l1va.credittest";
@@ -70,39 +68,14 @@ public class GridFragment extends Fragment {
         mGrid.addOnScrollListener(new EndlessRecyclerViewScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                // fetch data here
-                ArrayList<PictureData> loaded = mBitmapUtils.loadPhotos(pictures,getContext().getResources(), 10, inRowCellsCount);
-                // update the adapter, saving the last known size
+                ArrayList<PictureData> loaded = mBitmapUtils.loadPhotos(pictures, getContext().getResources(), 10, inRowCellsCount);
                 int curSize = adapter.getItemCount();
                 pictures.addAll(loaded);
-
-                // for efficiency purposes, only notify the adapter of what elements that got changed
-                // curSize will equal to the index of the first element inserted because the list is 0-indexed
                 adapter.notifyItemRangeInserted(curSize, pictures.size() - 1);
             }
         });
-
-
         return view;
     }
-
-  /*  @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        Bundle args = getArguments();
-
-        if (args != null) {
-            TextView title = (TextView) view.findViewById(R.id.item_title);
-            title.setText("Title: " + args.getCharSequence(KEY_TITLE));
-
-            int indicatorColor = args.getInt(KEY_INDICATOR_COLOR);
-            TextView indicatorColorView = (TextView) view.findViewById(R.id.item_indicator_color);
-            indicatorColorView.setText("Indicator: #" + Integer.toHexString(indicatorColor));
-            indicatorColorView.setTextColor(indicatorColor);
-
-        }
-    }*/
 
     private class GridHolder extends RecyclerView.ViewHolder {
 
@@ -118,14 +91,12 @@ public class GridFragment extends Fragment {
     private class GridAdapter extends RecyclerView.Adapter<GridHolder> {
 
         private ArrayList<PictureData> pictures;
-        //private Context context;
         private Resources resources;
         private ColorMatrixColorFilter grayscaleFilter;
         private LayoutInflater layoutInflater;
         private ThumbnailClickListener thumbnailClickListener;
 
         private GridAdapter(Context context, ArrayList<PictureData> pictures) {
-            //this.context = context;
             resources = context.getResources();
             this.pictures = pictures;
             ColorMatrix grayMatrix = new ColorMatrix();
@@ -144,9 +115,7 @@ public class GridFragment extends Fragment {
         @Override
         public void onBindViewHolder(GridHolder holder, int position) {
             PictureData pictureData = pictures.get(position);
-
-            BitmapDrawable thumbnailDrawable =
-                    new BitmapDrawable(resources, pictureData.thumbnail);
+            BitmapDrawable thumbnailDrawable = new BitmapDrawable(resources, pictureData.thumbnail);
             thumbnailDrawable.setColorFilter(grayscaleFilter);
 
             ((ImageView) holder.container.findViewById(R.id.thumbnail)).setImageDrawable(thumbnailDrawable);
@@ -167,7 +136,6 @@ public class GridFragment extends Fragment {
 
         private ThumbnailClickListener(Context context) {
             this.context = context;
-
         }
 
         @Override
@@ -227,17 +195,12 @@ public class GridFragment extends Fragment {
             this.mLinearLayoutManager = layoutManager;
         }
 
-        // This happens many times a second during a scroll, so be wary of the code you place here.
-        // We are given a few useful parameters to help us work out if we need to load some more data,
-        // but first we check if we are waiting for the previous load to finish.
         @Override
         public void onScrolled(RecyclerView view, int dx, int dy) {
             int firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
             int visibleItemCount = view.getChildCount();
             int totalItemCount = mLinearLayoutManager.getItemCount();
 
-            // If the total item count is zero and the previous isn't, assume the
-            // list is invalidated and should be reset back to initial state
             if (totalItemCount < previousTotalItemCount) {
                 this.currentPage = this.startingPageIndex;
                 this.previousTotalItemCount = totalItemCount;
@@ -245,17 +208,11 @@ public class GridFragment extends Fragment {
                     this.loading = true;
                 }
             }
-            // If it’s still loading, we check to see if the dataset count has
-            // changed, if so we conclude it has finished loading and update the current page
-            // number and total item count.
             if (loading && (totalItemCount > previousTotalItemCount)) {
                 loading = false;
                 previousTotalItemCount = totalItemCount;
             }
 
-            // If it isn’t currently loading, we check to see if we have breached
-            // the visibleThreshold and need to reload more data.
-            // If we do need to reload some more data, we execute onLoadMore to fetch the data.
             if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
                 currentPage++;
                 onLoadMore(currentPage, totalItemCount);
@@ -263,7 +220,6 @@ public class GridFragment extends Fragment {
             }
         }
 
-        // Defines the process for actually loading more data based on page
         public abstract void onLoadMore(int page, int totalItemsCount);
 
     }

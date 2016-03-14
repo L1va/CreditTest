@@ -11,8 +11,6 @@ import android.widget.ImageView;
 
 import com.example.l1va.credittest.utils.BitmapUtilsOld;
 
-//import com.example.l1va.credittest.utils.BitmapUtils;
-
 public class ImageActivity extends Activity {
 
     private static final String PACKAGE = "com.example.l1va.credittest";
@@ -40,7 +38,7 @@ public class ImageActivity extends Activity {
                 bundle.getInt(PACKAGE + ".resourceId"));
 
         imageView.setImageBitmap(bitmap);
-        setupZoom();
+        scaleDetector = new ScaleGestureDetector(this, new ScaleListener());
 
         imageView.setOnTouchListener(new View.OnTouchListener() {
             boolean secondTouch = false;
@@ -69,13 +67,7 @@ public class ImageActivity extends Activity {
                 }
                 return true;
             }
-
         });
-    }
-
-
-    private void setupZoom() {
-        scaleDetector = new ScaleGestureDetector(this, new ScaleListener());
     }
 
     @Override

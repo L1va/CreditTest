@@ -19,7 +19,6 @@ import com.example.l1va.credittest.utils.SlidingTabLayout;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
     public static MainActivity instance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +67,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.settings: {
                 startSettingsActivity();
                 return true;
             }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -119,22 +116,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-  /*  @Override
-    public void openOptionsMenu() {
-
-        Configuration config = getResources().getConfiguration();
-
-        if((config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
-                > Configuration.SCREENLAYOUT_SIZE_LARGE) {
-
-            int originalScreenLayout = config.screenLayout;
-            config.screenLayout = Configuration.SCREENLAYOUT_SIZE_LARGE;
-            super.openOptionsMenu();
-            config.screenLayout = originalScreenLayout;
-
-        } else {
-            super.openOptionsMenu();
-        }
-    }*/
 }

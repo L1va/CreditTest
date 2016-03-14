@@ -8,15 +8,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
-public class SettingsActivity extends PreferenceActivity //implements SharedPreferences.OnSharedPreferenceChangeListener
-{
-    /* @Override
-     public void onBuildHeaders(List<Header> target)
-     {
-         loadHeadersFromResource(R.xml.settings_headers, target);
-     }
- */
-
+public class SettingsActivity extends PreferenceActivity {
     public static class SettingsFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -40,34 +32,8 @@ public class SettingsActivity extends PreferenceActivity //implements SharedPref
         }
     }
 
-
-    //ListPreference mListPreference;
     public static final String THEME_PREFERENCE = "listThemes";
     public static final String CELLS_COUNT_PREFERENCE = "listCellsCount";
-
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        //mListPreference.setSummary("Current value is " + mListPreference.getEntry().toString());
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.registerOnSharedPreferenceChangeListener(this);
-        //getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.registerOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(THEME_PREFERENCE)) {
-            //recreate();not beautiful
-        }
-    }*/
 
     @Override
     public void onBackPressed() {
