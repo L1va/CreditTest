@@ -8,7 +8,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
-public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class SettingsActivity extends PreferenceActivity //implements SharedPreferences.OnSharedPreferenceChangeListener
+{
     /* @Override
      public void onBuildHeaders(List<Header> target)
      {
@@ -44,7 +45,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     public static final String THEME_PREFERENCE = "listThemes";
     public static final String CELLS_COUNT_PREFERENCE = "listCellsCount";
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
         //mListPreference.setSummary("Current value is " + mListPreference.getEntry().toString());
@@ -64,9 +65,14 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(THEME_PREFERENCE)) {
-            //mListPreference.setSummary("Current value is " + mListPreference.getEntry().toString());
-
+            //recreate();not beautiful
         }
+    }*/
+
+    @Override
+    public void onBackPressed() {
+        MainActivity.instance.recreate();
+        super.onBackPressed();
     }
 
     public static int getTheme(Context context) {

@@ -12,4 +12,16 @@ public class PictureData {
         this.description = description;
         this.thumbnail = thumbnail;
     }
+
+    public int getResourceId() {
+        return resourceId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Bitmap getThumbnail() {
+        return thumbnail;
+    }
 }

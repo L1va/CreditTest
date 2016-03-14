@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.example.l1va.credittest.utils.BitmapUtilsOld;
@@ -40,6 +41,36 @@ public class ImageActivity extends Activity {
 
         imageView.setImageBitmap(bitmap);
         setupZoom();
+
+        imageView.setOnTouchListener(new View.OnTouchListener() {
+            boolean secondTouch = false;
+            boolean scaledTwice = false;
+            long time = System.currentTimeMillis();
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (secondTouch && (System.currentTimeMillis() - time) <= 300) {
+                        secondTouch = false;
+                        if (scaledTwice) {
+                            scaledTwice = false;
+                            imageView.setScaleX(1);
+                            imageView.setScaleY(1);
+                        } else {
+                            scaledTwice = true;
+                            imageView.setScaleX(2);
+                            imageView.setScaleY(2);
+                        }
+                    } else {
+                        secondTouch = true;
+                        time = System.currentTimeMillis();
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+        });
     }
 
 
@@ -76,9 +107,14 @@ public class ImageActivity extends Activity {
                 final int pointerIndex =
                         MotionEventCompat.findPointerIndex(ev, activePointerId);
 
-                final float x = MotionEventCompat.getX(ev, pointerIndex);
-                final float y = MotionEventCompat.getY(ev, pointerIndex);
-
+                final float x, y;
+                try {
+                    x = MotionEventCompat.getX(ev, pointerIndex);
+                    y = MotionEventCompat.getY(ev, pointerIndex);
+                } catch (IllegalArgumentException ex) {
+                    System.out.println("Pointer index out of range: " + ex);
+                    return true;
+                }
                 // Calculate the distance moved
                 final float dx = x - lastTouchX;
                 final float dy = y - lastTouchY;
@@ -98,6 +134,30 @@ public class ImageActivity extends Activity {
 
             case MotionEvent.ACTION_UP: {
                 activePointerId = INVALID_POINTER_ID;
+                int x = (int) ev.getX();
+                int y = (int) ev.getY();
+                int[] loc = new int[2];
+                imageView.getLocationOnScreen(loc);
+
+                float scaleX = imageView.getScaleX();
+                float scaleY = imageView.getScaleY();
+                int viewW = imageView.getWidth();
+                int viewH = imageView.getHeight();
+                int imageW = imageView.getDrawable().getIntrinsicWidth();
+                int imageH = imageView.getDrawable().getIntrinsicHeight();
+
+
+                double fitScale = Math.max(1.0, Math.max(imageH / (1.0 * viewH), imageW / (1.0 * viewW)));
+
+                double x0 = loc[0] + viewW * scaleX / 2 - imageW * scaleX / 2 / fitScale;
+                double x1 = loc[0] + viewW * scaleX / 2 + imageW * scaleX / 2 / fitScale;
+                double y0 = loc[1] + viewH * scaleY / 2 - imageH * scaleY / 2 / fitScale;
+                double y1 = loc[1] + viewH * scaleY / 2 + imageH * scaleY / 2 / fitScale;
+
+                boolean isInside = x >= x0 && x < x1 && y >= y0 && y < y1;
+                if (!isInside) {
+                    onBackPressed();
+                }
                 break;
             }
 

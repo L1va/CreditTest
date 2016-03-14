@@ -19,6 +19,8 @@ import com.example.l1va.credittest.utils.SlidingTabLayout;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    public static MainActivity instance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.replace(R.id.main_fragment, tabsFragment);
             transaction.commit();
         }
+        instance = this;
     }
 
     @Override

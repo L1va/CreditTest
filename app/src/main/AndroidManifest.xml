@@ -16,9 +16,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:theme="@android:style/Theme.Translucent"
             android:name=".ImageActivity"
             android:label="@string/subactivity_name"
-            android:theme="@style/AppBaseTheme">
+
+            >
 
         </activity>
         <activity
