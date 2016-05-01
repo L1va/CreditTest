@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lightColorTransparent">#80FFFF00</color>
+    <color name="darkColorTransparent">#80FF9800</color>
+</resources>

@@ -8,8 +8,8 @@
             android:defaultValue="0"
             android:entries="@array/themesArray"
             android:entryValues="@array/themesValues"
-            android:key="listThemes"
-            android:title="Pick your favourite theme" />
+            android:key="@string/list_themes_key"
+            android:title="@string/theme_preferences_pick" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Grid Settings">
@@ -17,8 +17,8 @@
             android:defaultValue="4"
             android:entries="@array/cellsCountArray"
             android:entryValues="@array/cellsCountValues"
-            android:key="listCellsCount"
-            android:title="Pick cells count" />
+            android:key="@string/list_cells_count_key"
+            android:title="@string/cells_preferences_pick" />
     </PreferenceCategory>
 
 </PreferenceScreen>

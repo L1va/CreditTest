@@ -9,11 +9,10 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.l1va.credittest.utils.BitmapUtilsOld;
+import com.example.l1va.credittest.utils.BitmapUtils;
 
-public class ImageActivity extends Activity {
+public class ActivityImage extends Activity {
 
-    private static final String PACKAGE = "com.example.l1va.credittest";
     private ImageView imageView;
 
     private ScaleGestureDetector scaleDetector;
@@ -27,15 +26,16 @@ public class ImageActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //setTheme(ActivitySettings.getThemeTransparent(getBaseContext()));
         super.onCreate(savedInstanceState);
-        setTheme(SettingsActivity.getTheme(getBaseContext()));
-        setContentView(R.layout.image_full);
+
+        setContentView(R.layout.activity_image);
 
         imageView = (ImageView) findViewById(R.id.imageView);
 
         Bundle bundle = getIntent().getExtras();
-        Bitmap bitmap = BitmapUtilsOld.getBitmap(getResources(),
-                bundle.getInt(PACKAGE + ".resourceId"));
+        Bitmap bitmap = BitmapUtils.getBitmap(getResources(),
+                bundle.getInt(getString(R.string.thumbnail_id_key)));
 
         imageView.setImageBitmap(bitmap);
         scaleDetector = new ScaleGestureDetector(this, new ScaleListener());

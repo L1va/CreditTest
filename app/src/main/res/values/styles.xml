@@ -1,20 +1,25 @@
 <resources>
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">#FF9800</item>
+        <item name="colorPrimaryDark">#FF5722</item>
+        <item name="colorAccent">#AA00FF</item>
+    </style>
+
+    <style name="AppThemeLight.NoActionBar" parent="AppThemeLight">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppThemeLight" parent="AppBaseTheme">
-        <item name="colorPrimary">#FFFF00</item>
-        <item name="colorPrimaryDark">#FFD600</item>
-        <item name="colorAccent">#FF4081</item>
-    </style>
-
-    <style name="AppThemeDark" parent="AppBaseTheme">
+    <style name="AppThemeDark" parent="Theme.AppCompat">
         <item name="colorPrimary">#FF9800</item>
         <item name="colorPrimaryDark">#FF5722</item>
         <item name="colorAccent">#AA00FF</item>
+    </style>
+
+    <style name="AppThemeDark.NoActionBar" parent="AppThemeDark">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 </resources>

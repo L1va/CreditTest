@@ -15,7 +15,7 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Avatar"
+        android:contentDescription="@string/author_photo"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:src="@mipmap/avatar" />
 
@@ -23,13 +23,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Mike Ivanou (L1va)"
+        android:text="@string/author_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="L1va4ka@yandex.by" />
+        android:text="@string/author_email" />
 
 </LinearLayout>

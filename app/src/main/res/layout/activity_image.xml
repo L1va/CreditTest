@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/full_picture"
         android:scaleType="centerInside"
-        android:transitionName="image_transition"
-        />
+        android:transitionName="@string/image_transition_key" />
 </RelativeLayout>

@@ -4,11 +4,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppBaseTheme">
-        <activity android:name=".MainActivity">
+        android:icon="@mipmap/ic_launcher">
+        <activity
+            android:name=".ActivityMain"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -16,16 +15,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:theme="@android:style/Theme.Translucent"
-            android:name=".ImageActivity"
-            android:label="@string/subactivity_name"
-
-            >
-
-        </activity>
+            android:name=".ActivityImage"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
         <activity
-            android:name=".SettingsActivity"
-            android:label="Settings" />
+            android:name=".ActivitySettings"
+            android:label="@string/menu_settings">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ActivityMain" />
+        </activity>
     </application>
 
 </manifest>
