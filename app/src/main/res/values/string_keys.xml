@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="thumbnail_id_key">thumbnail_resource_id</string>
+    <string name="image_transition_key">image_transition</string>
+
+    <string name="list_themes_key">listThemes</string>
+    <string name="list_cells_count_key">listCellsCount</string>
+
+    <string name="light_theme_key">Light</string>
+    <string name="dark_theme_key">Dark</string>
+
+</resources>

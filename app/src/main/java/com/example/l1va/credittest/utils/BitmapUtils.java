@@ -36,9 +36,7 @@ public class BitmapUtils {
                     resourceId = mPhotos[id];
                 }
 
-                Bitmap bitmap = getBitmap(resources, resourceId);
-                Bitmap thumbnail = getThumbnail(bitmap, resourceId);
-                pictures.add(new PictureData(resourceId, thumbnail));
+                pictures.add(new PictureData(resourceId));
             }
             checkLastTwoRows(loaded, pictures, i, inRow);
 
@@ -92,9 +90,10 @@ public class BitmapUtils {
 
     private static final int MAX_DIMENSION = 200;
 
-    private static Bitmap getThumbnail(Bitmap original, int resourceId) {
+    public static Bitmap getThumbnail(Resources resources, int resourceId) {
         Bitmap thumbnail = thumbnailsMap.get(resourceId);
         if (thumbnail == null) {
+            Bitmap original = getBitmap(resources,resourceId);
             int width = original.getWidth();
             int height = original.getHeight();
             int scaledWidth, scaledHeight;

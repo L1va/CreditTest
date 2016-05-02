@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -50,6 +51,7 @@ public class FragmentGrid extends Fragment {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                 outRect.top = 5;
+                outRect.left = 5;
                 outRect.bottom = 5;
             }
         });
@@ -104,11 +106,10 @@ public class FragmentGrid extends Fragment {
         @Override
         public void onBindViewHolder(GridHolder holder, int position) {
             PictureData pictureData = pictures.get(position);
-            BitmapDrawable thumbnailDrawable = new BitmapDrawable(resources, pictureData.getThumbnail());
 
             holder.container.setTag(pictureData);
-            holder.imageView.setImageDrawable(thumbnailDrawable);
-            holder.textView.setText("" + (position + 1));
+            holder.imageView.setImageBitmap(BitmapUtils.getThumbnail(getResources(), pictureData.getResourceId()));
+            holder.textView.setText(String.valueOf(position + 1));
         }
 
         @Override

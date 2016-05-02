@@ -14,11 +14,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.Toast;
 
 public class ActivityMain extends AppCompatActivity {
 
@@ -40,11 +39,19 @@ public class ActivityMain extends AppCompatActivity {
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        //TODO: use me
+        final DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        Toast.makeText(this, "metrics:" + displayMetrics.widthPixels + "_" + displayMetrics.heightPixels, Toast.LENGTH_LONG).show();
+
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new OnNavigationItemSelectedListener());
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -62,15 +69,6 @@ public class ActivityMain extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
     }
-
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new FragmentGrid(), getString(R.string.tab_gallery));
-        adapter.addFragment(new FragmentGrid(), getString(R.string.tab_photos));
-        adapter.addFragment(new FragmentGrid(), getString(R.string.tab_cache));
-        viewPager.setAdapter(adapter);
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -133,10 +131,10 @@ public class ActivityMain extends AppCompatActivity {
                 case R.id.nav_comment:
                     Intent mailer = new Intent(Intent.ACTION_SEND);
                     mailer.setType("text/plain");
-                    mailer.putExtra(Intent.EXTRA_EMAIL, new String[]{"", "L1va4ka@yandex.by"});
-                    mailer.putExtra(Intent.EXTRA_SUBJECT, "Credit Test App Comment");
-                    mailer.putExtra(Intent.EXTRA_TEXT, "Hi, Mike!");
-                    startActivity(Intent.createChooser(mailer, "Send email..."));
+                    mailer.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.author_email)});
+                    mailer.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
+                    mailer.putExtra(Intent.EXTRA_TEXT, getString(R.string.email_text));
+                    startActivity(Intent.createChooser(mailer, getString(R.string.email_button)));
                     break;
                 case R.id.nav_settings:
                     startSettingsActivity();
@@ -148,8 +146,8 @@ public class ActivityMain extends AppCompatActivity {
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        private final String[] titles = new String[]{getString(R.string.tab_gallery), getString(R.string.tab_photos), getString(R.string.tab_cache)};
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
@@ -157,22 +155,18 @@ public class ActivityMain extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return mFragmentList.get(position);
+            return new FragmentGrid();
         }
 
         @Override
         public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
+            return titles.length;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
+            return titles[position];
+
         }
     }
 }

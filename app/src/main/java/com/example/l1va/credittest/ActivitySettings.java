@@ -7,20 +7,31 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 public class ActivitySettings extends AppCompatActivity {
+
     public static class SettingsFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_fragment);
 
-            bindOnPreferenceChangeListener(findPreference(getString(R.string.list_themes_key)), getActivity());
+            Preference themePreference = findPreference(getString(R.string.list_themes_key));
+            themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object value) {
+                    String stringValue = value.toString();
+
+                    //TODO: getString keys
+                    if (!preference.getSharedPreferences().getString(getActivity().getString(R.string.list_themes_key), "Dark").equals(stringValue)) {
+                        getActivity().recreate();
+                    }
+                    return true;
+                }
+            });
 
         }
     }
@@ -38,13 +49,7 @@ public class ActivitySettings extends AppCompatActivity {
         setTheme(getTheme(getBaseContext()));
         super.onCreate(savedInstanceState);
 
-        /*ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }*/
-
-        getFragmentManager().beginTransaction().replace(android.R.id.content,
-                new SettingsFragment()).commit();
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
     }
 
     public static int getTheme(Context context) {
@@ -59,7 +64,9 @@ public class ActivitySettings extends AppCompatActivity {
 
     public static int getThemeNoActionBar(Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String theme = sharedPrefs.getString(context.getString(R.string.list_themes_key), "Dark");
+        String dark = context.getString(R.string.dark_theme_key);
+        String theme = sharedPrefs.getString(context.getString(R.string.list_themes_key), dark);
+
         switch (theme) {
             case "Dark":
                 return R.style.AppThemeDark_NoActionBar;
@@ -68,24 +75,7 @@ public class ActivitySettings extends AppCompatActivity {
     }
 
     public static int getCellsCount(Context context) {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String count = sharedPrefs.getString(context.getString(R.string.list_cells_count_key), "4");
-        return Integer.parseInt(count);
+        return PreferenceManager.getDefaultSharedPreferences(context).getInt(context.getString(R.string.list_cells_count_key), 4);
     }
 
-    private static void bindOnPreferenceChangeListener(Preference preference, final Activity activity) {
-
-        Preference.OnPreferenceChangeListener OnPreferenceChangeListener = new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object value) {
-                String stringValue = value.toString();
-
-                if (!preference.getSharedPreferences().getString(activity.getString(R.string.list_themes_key), "").equals(stringValue)) {
-                    activity.recreate();
-                }
-                return true;
-            }
-        };
-        preference.setOnPreferenceChangeListener(OnPreferenceChangeListener);
-    }
 }

@@ -1,8 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Credit Test App</string>
-    <string name="subactivity_name">Picture Info!</string>
-    <string name="thumbnail_id_key">thumbnail_resource_id</string>
-    <string name="image_transition_key">image_transition</string>
 
     <string name="nav_menu_gallery">Gallery</string>
     <string name="nav_menu_photos">Photos</string>
@@ -17,30 +15,33 @@
     <string name="author_email">L1va4ka@yandex.by</string>
     <string name="author_name">Mike Ivanou (L1va)</string>
 
-
     <string name="tab_gallery">Gallery</string>
     <string name="tab_photos">Photos</string>
     <string name="tab_cache">Cache</string>
 
+    <string name="email_subject">Credit Test App Comment</string>
+    <string name="email_text">Hi, Mike!</string>
+    <string name="email_button">Send email</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="list_themes_key">listThemes</string>
-    <string name="list_cells_count_key">listCellsCount</string>
 
     <string name="theme_preferences_pick">Pick your favourite theme</string>
     <string name="cells_preferences_pick">Pick cells count</string>
     <string name="full_picture">Full Picture</string>
     <string name="thumbnail_of_the_picture">Thumbnail of the picture</string>
 
+    <string name="light_theme">Light</string>
+    <string name="dark_theme">Dark</string>
+
     <string-array name="themesArray">
-        <item>Light</item>
-        <item>Dark</item>
+        <item>@string/light_theme</item>
+        <item>@string/dark_theme</item>
     </string-array>
 
     <string-array name="themesValues">
-        <item>Light</item>
-        <item>Dark</item>
+        <item>@string/light_theme_key</item>
+        <item>@string/dark_theme_key</item>
     </string-array>
 
     <string-array name="cellsCountArray">

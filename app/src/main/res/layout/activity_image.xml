@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/imageView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#80FF9800">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/full_picture"
-        android:scaleType="centerInside"
-        android:transitionName="@string/image_transition_key" />
-</RelativeLayout>
+    android:layout_gravity="center"
+    android:adjustViewBounds="true"
+    android:background="#80FF9800"
+    android:contentDescription="@string/full_picture"
+    android:scaleType="centerInside"
+    android:transitionName="@string/image_transition_key" />
