@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">الائتمان اختبار التطبيق</string>
+
+    <string name="nav_menu_gallery">معرض</string>
+    <string name="nav_menu_photos">الصور</string>
+    <string name="nav_menu_cache">ذاكرة التخزين المؤقت</string>
+    <string name="nav_menu_communicate">التواصل</string>
+    <string name="nav_menu_comment">التعليق</string>
+    <string name="nav_menu_settings">الإعدادات</string>
+
+    <string name="menu_settings">الإعدادات</string>
+
+    <string name="author_photo">الصورة الرمزية</string>
+    <string name="author_email">L1va4ka@yandex.by</string>
+    <string name="author_name">مايك إيفانو (L1va)</string>
+
+    <string name="tab_gallery">معرض</string>
+    <string name="tab_photos">الصور</string>
+    <string name="tab_cache">ذاكرة التخزين المؤقت</string>
+
+    <string name="email_subject">الائتمان اختبار التطبيق التعليق</string>
+    <string name="email_text">مرحبا مايك!</string>
+    <string name="email_button">إرسال البريد الإلكتروني</string>
+
+    <string name="navigation_drawer_open">فتح درج التنقل</string>
+    <string name="navigation_drawer_close">إغلاق درج التنقل</string>
+
+    <string name="theme_preferences_pick">اختيار المفضلة لديك موضوع</string>
+    <string name="cells_preferences_pick">اختيار خلايا العد</string>
+    <string name="full_picture">الصورة الكاملة</string>
+    <string name="thumbnail_of_the_picture">صورة مصغرة من الصورة</string>
+
+    <string name="light_theme">الضوء</string>
+    <string name="dark_theme">الظلام</string>
+
+    <string name="theme_category">موضوع</string>
+    <string name="cells_count_category">إعدادات الشبكة</string>
+
+</resources>

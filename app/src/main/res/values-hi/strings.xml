@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">क्रेडिट परीक्षण</string>
+
+    <string name="nav_menu_gallery">गैलरी</string>
+    <string name="nav_menu_photos">तस्वीरें</string>
+    <string name="nav_menu_cache">कैश</string>
+    <string name="nav_menu_communicate">संवाद</string>
+    <string name="nav_menu_comment">टिप्पणी</string>
+    <string name="nav_menu_settings">सेटिंग्स</string>
+
+    <string name="menu_settings">सेटिंग्स</string>
+
+    <string name="author_photo">अवतार</string>
+    <string name="author_email">L1va4ka@yandex.by</string>
+    <string name="author_name">माइक (L1va)</string>
+
+    <string name="tab_gallery">गैलरी</string>
+    <string name="tab_photos">तस्वीरें</string>
+    <string name="tab_cache">कैश</string>
+
+    <string name="email_subject">क्रेडिट परीक्षण App टिप्पणी</string>
+    <string name="email_text">हाय, माइक!</string>
+    <string name="email_button">ईमेल भेजें</string>
+
+    <string name="navigation_drawer_open">खुला नेविगेशन drawer</string>
+    <string name="navigation_drawer_close">करीब नेविगेशन दराज</string>
+
+    <string name="theme_preferences_pick">उठाओ अपने पसंदीदा विषय</string>
+    <string name="cells_preferences_pick">उठाओ कोशिकाओं गिनती</string>
+    <string name="full_picture">पूरा चित्र</string>
+    <string name="thumbnail_of_the_picture">थंबनेल चित्र के</string>
+
+    <string name="light_theme">प्रकाश</string>
+    <string name="dark_theme">अंधेरे</string>
+
+    <string name="theme_category">विषय</string>
+    <string name="cells_count_category">ग्रिड सेटिंग्स</string>
+
+</resources>

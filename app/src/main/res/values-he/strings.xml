@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">אשראי יישום מבחן</string>
+
+    <string name="nav_menu_gallery">גלריה</string>
+    <string name="nav_menu_photos">תמונות</string>
+    <string name="nav_menu_cache">מטמון</string>
+    <string name="nav_menu_communicate">לתקשר.</string>
+    <string name="nav_menu_comment">תגובה</string>
+    <string name="nav_menu_settings">הגדרות</string>
+
+    <string name="menu_settings">הגדרות</string>
+
+    <string name="author_photo">אווטאר</string>
+    <string name="author_email">L1va4ka@yandex.by</string>
+    <string name="author_name">מייק Ivanou (L1va)</string>
+
+    <string name="tab_gallery">גלריה</string>
+    <string name="tab_photos">תמונות</string>
+    <string name="tab_cache">מטמון</string>
+
+    <string name="email_subject">אשראי יישום מבחן אחד</string>
+    <string name="email_text">היי, מייק!</string>
+    <string name="email_button">לשלוח דוא " ל</string>
+
+    <string name="navigation_drawer_open">פתח את חלונית הניווט</string>
+    <string name="navigation_drawer_close">סגור חלונית הניווט</string>
+
+    <string name="theme_preferences_pick">לבחור את הנושא האהוב.</string>
+    <string name="cells_preferences_pick">לבחור תאים לספור</string>
+    <string name="full_picture">התמונה המלאה</string>
+    <string name="thumbnail_of_the_picture">תמונה ממוזערת של התמונה</string>
+
+    <string name="light_theme">אור</string>
+    <string name="dark_theme">אפל</string>
+
+    <string name="theme_category">נושא</string>
+    <string name="cells_count_category">הגדרות רשת</string>
+</resources>

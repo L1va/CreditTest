@@ -2,7 +2,7 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Themes">
+    <PreferenceCategory android:title="@string/theme_category">
 
         <ListPreference
             android:defaultValue="0"
@@ -12,7 +12,7 @@
             android:title="@string/theme_preferences_pick" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Grid Settings">
+    <PreferenceCategory android:title="@string/cells_count_category">
         <ListPreference
             android:defaultValue="4"
             android:entries="@array/cellsCountArray"

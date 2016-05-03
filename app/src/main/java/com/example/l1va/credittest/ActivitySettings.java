@@ -58,8 +58,9 @@ public class ActivitySettings extends AppCompatActivity {
         switch (theme) {
             case "Dark":
                 return R.style.AppThemeDark;
+            default:
+                return R.style.AppThemeLight;
         }
-        return R.style.AppThemeLight;
     }
 
     public static int getThemeNoActionBar(Context context) {
@@ -70,12 +71,13 @@ public class ActivitySettings extends AppCompatActivity {
         switch (theme) {
             case "Dark":
                 return R.style.AppThemeDark_NoActionBar;
+            default:
+                return R.style.AppThemeLight_NoActionBar;
         }
-        return R.style.AppThemeLight_NoActionBar;
     }
 
     public static int getCellsCount(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getInt(context.getString(R.string.list_cells_count_key), 4);
+        return Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.list_cells_count_key), "4"));
     }
 
 }

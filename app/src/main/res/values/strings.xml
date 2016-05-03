@@ -34,6 +34,9 @@
     <string name="light_theme">Light</string>
     <string name="dark_theme">Dark</string>
 
+    <string name="theme_category">Theme</string>
+    <string name="cells_count_category">Grid Settings</string>
+
     <string-array name="themesArray">
         <item>@string/light_theme</item>
         <item>@string/dark_theme</item>

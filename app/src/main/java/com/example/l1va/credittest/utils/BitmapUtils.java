@@ -9,6 +9,7 @@ import com.example.l1va.credittest.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class BitmapUtils {
 
@@ -21,11 +22,11 @@ public class BitmapUtils {
             R.drawable.p6,
     };
 
-    private static HashMap<Integer, Bitmap> sBitmapResourceMap = new HashMap<Integer, Bitmap>();
-    private static HashMap<Integer, Bitmap> thumbnailsMap = new HashMap<Integer, Bitmap>();
+    private static Map<Integer, Bitmap> sBitmapResourceMap = new HashMap<>();
+    private static Map<Integer,Map<Integer,Bitmap>> thumbnailsMap = new HashMap<>();
 
-    public static ArrayList<PictureData> loadPhotos(ArrayList<PictureData> loaded, Resources resources, int rows, int inRow) {
-        ArrayList<PictureData> pictures = new ArrayList<PictureData>();
+    public static ArrayList<PictureData> loadPhotos(ArrayList<PictureData> loaded, int rows, int inRow) {
+        ArrayList<PictureData> pictures = new ArrayList<>();
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < inRow; ++j) {
                 int id = (int) (Math.random() * mPhotos.length);
@@ -88,26 +89,29 @@ public class BitmapUtils {
         return bitmap;
     }
 
-    private static final int MAX_DIMENSION = 200;
-
-    public static Bitmap getThumbnail(Resources resources, int resourceId) {
-        Bitmap thumbnail = thumbnailsMap.get(resourceId);
+    public static Bitmap getThumbnailByWidth(Resources resources, int resourceId, int thumbnailWidth) {
+        Map<Integer,Bitmap> mapSize = thumbnailsMap.get(resourceId);
+        if (mapSize == null) {
+            mapSize = new HashMap<>();
+            thumbnailsMap.put(resourceId,mapSize);
+        }
+        Bitmap thumbnail = mapSize.get(thumbnailWidth);
         if (thumbnail == null) {
             Bitmap original = getBitmap(resources,resourceId);
             int width = original.getWidth();
             int height = original.getHeight();
             int scaledWidth, scaledHeight;
             if (width >= height) {
-                float scaleFactor = (float) MAX_DIMENSION / width;
-                scaledWidth = MAX_DIMENSION;
+                float scaleFactor = (float) thumbnailWidth / width;
+                scaledWidth = thumbnailWidth;
                 scaledHeight = (int) (scaleFactor * height);
             } else {
-                float scaleFactor = (float) MAX_DIMENSION / height;
+                float scaleFactor = (float) thumbnailWidth / height;
                 scaledWidth = (int) (scaleFactor * width);
-                scaledHeight = MAX_DIMENSION;
+                scaledHeight = thumbnailWidth;
             }
             thumbnail = Bitmap.createScaledBitmap(original, scaledWidth, scaledHeight, true);
-            thumbnailsMap.put(resourceId, thumbnail);
+            mapSize.put(thumbnailWidth, thumbnail);
         }
         return thumbnail;
     }

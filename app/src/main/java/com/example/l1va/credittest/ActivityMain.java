@@ -14,10 +14,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class ActivityMain extends AppCompatActivity {
 
@@ -38,12 +36,6 @@ public class ActivityMain extends AppCompatActivity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-        //TODO: use me
-        final DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-        Toast.makeText(this, "metrics:" + displayMetrics.widthPixels + "_" + displayMetrics.heightPixels, Toast.LENGTH_LONG).show();
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new OnNavigationItemSelectedListener());

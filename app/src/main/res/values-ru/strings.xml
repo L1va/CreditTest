@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Зачётное приложение</string>
+
+    <string name="nav_menu_gallery">Галерея</string>
+    <string name="nav_menu_photos">Фото</string>
+    <string name="nav_menu_cache">Кеш</string>
+    <string name="nav_menu_communicate">Коммуникация</string>
+    <string name="nav_menu_comment">Коментарий</string>
+    <string name="nav_menu_settings">Настройки</string>
+
+    <string name="menu_settings">Настройки</string>
+
+    <string name="author_photo">Фото</string>
+    <string name="author_email">L1va4ka@yandex.by</string>
+    <string name="author_name">Михаил Иванов (L1va)</string>
+
+    <string name="tab_gallery">Галерея</string>
+    <string name="tab_photos">Фото</string>
+    <string name="tab_cache">Кеш</string>
+
+    <string name="email_subject">Коментарий к зачётному приложению</string>
+    <string name="email_text">Привет, Михаил!</string>
+    <string name="email_button">Отправить письмо</string>
+
+    <string name="navigation_drawer_open">Открыть навигационную панель</string>
+    <string name="navigation_drawer_close">Закрыть навигационную панель</string>
+
+    <string name="theme_preferences_pick">Выберите тему</string>
+    <string name="cells_preferences_pick">Выберите количество ячеек</string>
+    <string name="full_picture">Изображение</string>
+    <string name="thumbnail_of_the_picture">Миниатюра изображения</string>
+
+    <string name="light_theme">Светлая</string>
+    <string name="dark_theme">Тёмная</string>
+
+    <string name="theme_category">Темы</string>
+    <string name="cells_count_category">Настройки таблицы</string>
+
+</resources>

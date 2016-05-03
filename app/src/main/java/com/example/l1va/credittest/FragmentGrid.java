@@ -3,10 +3,8 @@ package com.example.l1va.credittest;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.l1va.credittest.entity.PictureData;
 import com.example.l1va.credittest.utils.BitmapUtils;
@@ -32,6 +29,8 @@ public class FragmentGrid extends Fragment {
 
     private final int ROWS_COUNT_TO_LOAD = 10;
 
+    // private int
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,8 +42,8 @@ public class FragmentGrid extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, inRowCellsCount);
         gridView.setLayoutManager(gridLayoutManager);
 
-        pictures = BitmapUtils.loadPhotos(null, getContext().getResources(), ROWS_COUNT_TO_LOAD, inRowCellsCount);
-        final GridAdapter adapter = new GridAdapter();
+        pictures = BitmapUtils.loadPhotos(null, ROWS_COUNT_TO_LOAD, inRowCellsCount);
+        final GridAdapter adapter = new GridAdapter(inRowCellsCount);
         gridView.setAdapter(adapter);
 
         gridView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -53,12 +52,13 @@ public class FragmentGrid extends Fragment {
                 outRect.top = 5;
                 outRect.left = 5;
                 outRect.bottom = 5;
+                outRect.right = 5;
             }
         });
         gridView.addOnScrollListener(new EndlessRecyclerViewScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                ArrayList<PictureData> loaded = BitmapUtils.loadPhotos(pictures, getContext().getResources(), ROWS_COUNT_TO_LOAD, inRowCellsCount);
+                ArrayList<PictureData> loaded = BitmapUtils.loadPhotos(pictures, ROWS_COUNT_TO_LOAD, inRowCellsCount);
                 int curSize = adapter.getItemCount();
                 pictures.addAll(loaded);
                 adapter.notifyItemRangeInserted(curSize, pictures.size() - 1);
@@ -83,14 +83,17 @@ public class FragmentGrid extends Fragment {
 
     private class GridAdapter extends RecyclerView.Adapter<GridHolder> {
 
-        private Resources resources;
         private LayoutInflater layoutInflater;
         private ThumbnailClickListener thumbnailClickListener;
+        private int thumbnailWidth;
 
-        private GridAdapter() {
-            resources = getContext().getResources();
+        private GridAdapter(int inRowCellsCount) {
             layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             thumbnailClickListener = new ThumbnailClickListener();
+
+            final Point pSize = new Point();
+            getActivity().getWindowManager().getDefaultDisplay().getSize(pSize);
+            thumbnailWidth = pSize.x / inRowCellsCount + 1;
         }
 
         @Override
@@ -108,7 +111,7 @@ public class FragmentGrid extends Fragment {
             PictureData pictureData = pictures.get(position);
 
             holder.container.setTag(pictureData);
-            holder.imageView.setImageBitmap(BitmapUtils.getThumbnail(getResources(), pictureData.getResourceId()));
+            holder.imageView.setImageBitmap(BitmapUtils.getThumbnailByWidth(getResources(), pictureData.getResourceId(), thumbnailWidth));
             holder.textView.setText(String.valueOf(position + 1));
         }
 
@@ -122,40 +125,15 @@ public class FragmentGrid extends Fragment {
 
         @Override
         public void onClick(View v) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                PictureData data = (PictureData) v.getTag();
-                Intent subActivity = new Intent(getContext(), ActivityImage.class);
-                subActivity.putExtra(getString(R.string.thumbnail_id_key), data.getResourceId());
-                getContext().startActivity(subActivity,
-                        ActivityOptions.makeSceneTransitionAnimation((ActivityMain) getContext(), v.findViewById(R.id.thumbnail), getString(R.string.image_transition_key)).toBundle());
-            } else {
-                Toast.makeText(getActivity(), "Unsupported version! Support only starting from Lollipop", Toast.LENGTH_LONG).show();
-            }
-            /* else {
-                // Interesting data to pass across are the thumbnail size/location, the
-                // resourceId of the source bitmap, the picture description, and the
-                // orientation (to avoid returning back to an obsolete configuration if
-                // the device rotates again in the meantime)
-                int[] screenLocation = new int[2];
-                v.getLocationOnScreen(screenLocation);
-                PictureData info = (PictureData) v.getTag();
-                Intent subActivity = new Intent(ActivityAnimations.this,
-                        PictureDetailsActivity.class);
-                int orientation = getResources().getConfiguration().orientation;
-                subActivity.
-                        putExtra(PACKAGE + ".orientation", orientation).
-                        putExtra(PACKAGE + ".resourceId", info.resourceId).
-                        putExtra(PACKAGE + ".left", screenLocation[0]).
-                        putExtra(PACKAGE + ".top", screenLocation[1]).
-                        putExtra(PACKAGE + ".width", v.getWidth()).
-                        putExtra(PACKAGE + ".height", v.getHeight()).
-                        putExtra(PACKAGE + ".description", info.description);
-                startActivity(subActivity);
+            PictureData data = (PictureData) v.getTag();
+            Intent subActivity = new Intent(getContext(), ActivityImage.class);
+            subActivity.putExtra(getString(R.string.thumbnail_id_key), data.getResourceId());
 
-                // Override transitions: we don't want the normal window animation in addition
-                // to our custom one
-                overridePendingTransition(0, 0);
-            }*/
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getContext().startActivity(subActivity, ActivityOptions.makeSceneTransitionAnimation((ActivityMain) getContext(), v.findViewById(R.id.thumbnail), getString(R.string.image_transition_key)).toBundle());
+            } else {
+                startActivity(subActivity);
+            }
         }
     }
 
