@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.os.Build;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -24,12 +24,12 @@ import java.util.ArrayList;
 
 public class FragmentGrid extends Fragment {
 
+    public static final String THUMBNAIL_ID_KEY = "thumbnail_resource_id";
+    public static final String IMAGE_TRANSITION_KEY = "image_transition";
+
     private RecyclerView gridView;
     private ArrayList<PictureData> pictures;
-
     private final int ROWS_COUNT_TO_LOAD = 10;
-
-    // private int
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,13 +69,11 @@ public class FragmentGrid extends Fragment {
 
     private class GridHolder extends RecyclerView.ViewHolder {
 
-        private View container;
         private ImageView imageView;
         private TextView textView;
 
         public GridHolder(View itemView, ImageView imageView, TextView textView) {
             super(itemView);
-            this.container = itemView;
             this.imageView = imageView;
             this.textView = textView;
         }
@@ -110,7 +108,7 @@ public class FragmentGrid extends Fragment {
         public void onBindViewHolder(GridHolder holder, int position) {
             PictureData pictureData = pictures.get(position);
 
-            holder.container.setTag(pictureData);
+            holder.itemView.setTag(pictureData);
             holder.imageView.setImageBitmap(BitmapUtils.getThumbnailByWidth(getResources(), pictureData.getResourceId(), thumbnailWidth));
             holder.textView.setText(String.valueOf(position + 1));
         }
@@ -127,13 +125,10 @@ public class FragmentGrid extends Fragment {
         public void onClick(View v) {
             PictureData data = (PictureData) v.getTag();
             Intent subActivity = new Intent(getContext(), ActivityImage.class);
-            subActivity.putExtra(getString(R.string.thumbnail_id_key), data.getResourceId());
+            subActivity.putExtra(THUMBNAIL_ID_KEY, data.getResourceId());
+            ImageView imageView = (ImageView) v.findViewById(R.id.thumbnail);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getContext().startActivity(subActivity, ActivityOptions.makeSceneTransitionAnimation((ActivityMain) getContext(), v.findViewById(R.id.thumbnail), getString(R.string.image_transition_key)).toBundle());
-            } else {
-                startActivity(subActivity);
-            }
+            getContext().startActivity(subActivity, ActivityOptions.makeThumbnailScaleUpAnimation(imageView, ((BitmapDrawable) imageView.getDrawable()).getBitmap(), 0, 0).toBundle());
         }
     }
 

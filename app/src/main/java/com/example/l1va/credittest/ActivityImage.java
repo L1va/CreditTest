@@ -14,7 +14,6 @@ import com.example.l1va.credittest.utils.BitmapUtils;
 public class ActivityImage extends Activity {
 
     private ImageView imageView;
-
     private ScaleGestureDetector scaleDetector;
     private float scaleFactor = 1.f;
     private float lastTouchX;
@@ -31,7 +30,7 @@ public class ActivityImage extends Activity {
         imageView = (ImageView) findViewById(R.id.imageView);
 
         Bundle bundle = getIntent().getExtras();
-        Bitmap bitmap = BitmapUtils.getBitmap(getResources(), bundle.getInt(getString(R.string.thumbnail_id_key)));
+        Bitmap bitmap = BitmapUtils.getBitmap(getResources(), bundle.getInt(FragmentGrid.THUMBNAIL_ID_KEY));
 
         imageView.setImageBitmap(bitmap);
         scaleDetector = new ScaleGestureDetector(this, new ScaleListener());

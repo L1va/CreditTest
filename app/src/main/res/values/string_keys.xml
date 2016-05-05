@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- be careful in updating this values, do not forget to update appropriate constants in *.java files -->
     <string name="thumbnail_id_key">thumbnail_resource_id</string>
     <string name="image_transition_key">image_transition</string>
 
