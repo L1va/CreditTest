@@ -37,4 +37,6 @@
     <string name="theme_category">موضوع</string>
     <string name="cells_count_category">إعدادات الشبكة</string>
 
+    <string name="send_by_mail">إرسال</string>
+
 </resources>

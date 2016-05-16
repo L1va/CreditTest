@@ -1,9 +1,17 @@
 package com.example.l1va.credittest;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.MotionEventCompat;
+import android.view.ContextMenu;
+import android.view.GestureDetector;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -11,10 +19,16 @@ import android.widget.ImageView;
 
 import com.example.l1va.credittest.utils.BitmapUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 public class ActivityImage extends Activity {
 
     private ImageView imageView;
     private ScaleGestureDetector scaleDetector;
+    private GestureDetector gestureDetector;
     private float scaleFactor = 1.f;
     private float lastTouchX;
     private float lastTouchY;
@@ -34,6 +48,10 @@ public class ActivityImage extends Activity {
 
         imageView.setImageBitmap(bitmap);
         scaleDetector = new ScaleGestureDetector(this, new ScaleListener());
+        gestureDetector = new GestureDetector(this, new GestureListener(this));
+
+        registerForContextMenu(imageView);
+        imageView.setLongClickable(false);
 
         imageView.setOnTouchListener(new View.OnTouchListener() {
             boolean secondTouch = false;
@@ -68,6 +86,7 @@ public class ActivityImage extends Activity {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         scaleDetector.onTouchEvent(ev);
+        gestureDetector.onTouchEvent(ev);
 
         if (ev.getPointerCount() > 1) {
             return true;
@@ -152,6 +171,58 @@ public class ActivityImage extends Activity {
         return true;
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.send_by_mail:
+                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+                File pkg = new File(getFilesDir(), "images");
+                if (!pkg.isDirectory() && !pkg.mkdirs()) {
+                    return false;
+                }
+                File sendFile = new File(pkg, "send.png");
+                try {
+                    OutputStream outputStream = null;
+                    try {
+                        outputStream = new FileOutputStream(sendFile);
+                        drawable.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                    } finally {
+                        if (outputStream != null) {
+                            outputStream.close();
+                        }
+                    }
+                } catch (IOException e) {
+                    return false;
+                }
+                Uri imageUri;
+                try {
+                    imageUri = FileProvider.getUriForFile(this, "com.example.l1va.credittest.fileprovider", sendFile);
+                } catch (IllegalArgumentException e) {
+                    return false;
+                }
+
+                Intent mailer = new Intent(Intent.ACTION_SEND);
+                mailer.setType(getContentResolver().getType(imageUri));
+                mailer.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.author_email)});
+                mailer.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
+                mailer.putExtra(Intent.EXTRA_TEXT, getString(R.string.email_text));
+                mailer.putExtra(Intent.EXTRA_STREAM, imageUri);
+                mailer.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(Intent.createChooser(mailer, getString(R.string.email_button)));
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
     private class ScaleListener
             extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
@@ -162,6 +233,21 @@ public class ActivityImage extends Activity {
             imageView.setScaleX(scaleFactor);
             imageView.setScaleY(scaleFactor);
             return true;
+        }
+    }
+
+    private class GestureListener
+            extends GestureDetector.SimpleOnGestureListener {
+
+        private final Activity activity;
+
+        public GestureListener(Activity activity) {
+            this.activity = activity;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            activity.openContextMenu(imageView);
         }
     }
 }
