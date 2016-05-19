@@ -38,6 +38,7 @@
     <string name="cells_count_category">Grid Settings</string>
 
     <string name="send_by_mail">Send</string>
+    <string name="open_with">Open</string>
 
     <string-array name="themesArray">
         <item>@string/light_theme</item>

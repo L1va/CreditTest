@@ -38,5 +38,6 @@
     <string name="cells_count_category">إعدادات الشبكة</string>
 
     <string name="send_by_mail">إرسال</string>
+    <string name="open_with">فتح</string>
 
 </resources>

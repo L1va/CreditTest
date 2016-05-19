@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.MotionEventCompat;
@@ -22,7 +23,7 @@ import com.example.l1va.credittest.utils.BitmapUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.nio.channels.FileLock;
 
 public class ActivityImage extends Activity {
 
@@ -179,36 +180,67 @@ public class ActivityImage extends Activity {
         inflater.inflate(R.menu.context, menu);
     }
 
+    private Uri safelySaveImage() {
+        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+
+        File pkg = new File(getFilesDir(), "images");
+        if (!pkg.isDirectory() && !pkg.mkdirs()) {
+            return null;
+        }
+        File sendFile = new File(pkg, "send.png");
+
+        SaveImageTask task = new SaveImageTask(drawable,sendFile);
+        task.execute();
+
+        try {
+            return FileProvider.getUriForFile(this, "com.example.l1va.credittest.fileprovider", sendFile);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    private class SaveImageTask extends AsyncTask<Void, Void, Void> {
+
+        private BitmapDrawable drawable;
+        private File file;
+        private FileOutputStream outputStream;
+
+        public SaveImageTask(BitmapDrawable drawable, File file) {
+            this.drawable = drawable;
+            this.file = file;
+        }
+
+        protected Void doInBackground(Void... values) {
+            try {
+                outputStream = new FileOutputStream(file);
+                FileLock lock = outputStream.getChannel().lock();
+                try {
+                    drawable.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                } finally {
+                    lock.release();
+                }
+            } catch (IOException e) {
+                return null;
+            } finally {
+                if (outputStream != null) {
+                    try {
+                        outputStream.close();
+                    } catch (IOException e) {
+                    }
+                }
+            }
+            return null;
+        }
+    }
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.send_by_mail:
-                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-                File pkg = new File(getFilesDir(), "images");
-                if (!pkg.isDirectory() && !pkg.mkdirs()) {
+                Uri imageUri = safelySaveImage();
+                if (imageUri == null) {
                     return false;
                 }
-                File sendFile = new File(pkg, "send.png");
-                try {
-                    OutputStream outputStream = null;
-                    try {
-                        outputStream = new FileOutputStream(sendFile);
-                        drawable.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-                    } finally {
-                        if (outputStream != null) {
-                            outputStream.close();
-                        }
-                    }
-                } catch (IOException e) {
-                    return false;
-                }
-                Uri imageUri;
-                try {
-                    imageUri = FileProvider.getUriForFile(this, "com.example.l1va.credittest.fileprovider", sendFile);
-                } catch (IllegalArgumentException e) {
-                    return false;
-                }
-
                 Intent mailer = new Intent(Intent.ACTION_SEND);
                 mailer.setType(getContentResolver().getType(imageUri));
                 mailer.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.author_email)});
@@ -218,6 +250,16 @@ public class ActivityImage extends Activity {
                 mailer.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(mailer, getString(R.string.email_button)));
                 return true;
+
+            case R.id.open_with:
+                imageUri = safelySaveImage();
+                if (imageUri == null) {
+                    return false;
+                }
+                Intent viewer = new Intent(Intent.ACTION_VIEW);
+                viewer.setDataAndType(imageUri, getContentResolver().getType(imageUri));
+                viewer.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(Intent.createChooser(viewer, getString(R.string.open_with)));
             default:
                 return super.onContextItemSelected(item);
         }

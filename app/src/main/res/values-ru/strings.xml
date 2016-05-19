@@ -38,4 +38,5 @@
     <string name="cells_count_category">Настройки таблицы</string>
 
     <string name="send_by_mail">Отправить</string>
+    <string name="open_with">Открыть</string>
 </resources>
